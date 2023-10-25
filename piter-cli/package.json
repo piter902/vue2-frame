@@ -1,7 +1,7 @@
 {
-  "name": "@piter/cli",
+  "name": "@piter.fe/cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "this is piter cli",
   "bin": {
     "piter": "index.js"
   },
@@ -9,6 +9,7 @@
     "release": "release-it"
   },
   "publishConfig": {
+    "registry": "https://registry.npmjs.org",
     "access": "public"
   },
   "keywords": [
