@@ -5,14 +5,29 @@ const chalk = require('chalk');
 const ora = require('ora');
 const fs = require("fs");
 const handlebars = require("handlebars");
-const copyDir = require('copy-dir');
-const path = require('path')
+const downloadUrl = require("download");
+// const copyDir = require('copy-dir');
+// const path = require('path')
 module.exports = class CliManager {
 
-    constructor(options, files, name) {
+    constructor(options, files, downUrl) {
         this.options = options || [];
         this.files = files;
-        this.name = name;
+        this.downUrl = downUrl
+    }
+    download(url, name, success, fail) {    // 下载文件
+        downloadUrl(url, name, {
+            extract: true,
+            strip: 1,
+            mode: "666",
+            headers: {
+                accept: "application/zip"
+            },
+        }).then(data => {
+            success && success(data);
+        }).catch(err => {
+            fail && fail(err);
+        });
     }
 
     modifyPackageContent(meta, rFileName) {
@@ -20,24 +35,25 @@ module.exports = class CliManager {
         const result = handlebars.compile(content)(meta);
         fs.writeFileSync(rFileName, result);
     }
-    resolve(callback) {
+    resolve() {
         let files = this.files || [];
         inquirer.prompt(this.options).then((answers) => {
             const spinner = ora('项目模板开始创建...');
             spinner.start();
             try {
-                copyDir.sync(path.resolve(__dirname,'./test'), process.cwd()+'/'+this.name);
                 let meta = answers;
-                typeof callback == 'function' && (meta = callback(answers) || answers);
-                files.forEach(v => {
-                    let fileName = `${meta.name}/${v}`;
-                    this.modifyPackageContent(meta, fileName)
+                this.download(this.downUrl, answers.name, res => {
+                    files.forEach(v => {
+                        let fileName = `${meta.name}/${v}`;
+                        this.modifyPackageContent(meta, fileName)
+                    })
+                    spinner.succeed();
+                    console.log(chalk.green('项目创建完成'))
+                    console.log(chalk.blue("请进入"+answers.name+"目录执行"+"\n"+"npm install"+"\n"+"npm run dev"))
                 })
-                spinner.succeed();
-                console.log(chalk.green('项目创建完成'))
-                console.log(chalk.blue("请进入"+this.name+"目录执行"+"\n"+"npm install"+"\n"+"npm run dev"))
+                
             }catch (err) {
-                console.log(chalk.red('项目创建失败'), error)
+                console.log(chalk.red('项目创建失败'), err)
                 spinner.fail();
             }
         });

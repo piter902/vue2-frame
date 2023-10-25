@@ -1,4 +1,5 @@
 const CliManager = require('../action')
+const downUrls = require('./downUrls')
 module.exports = function (name) {
     const files = ["package.json"]
     const cli = new CliManager([
@@ -14,7 +15,7 @@ module.exports = function (name) {
             name: 'description',
             default: 'this is piter pc project!'
         }
-    ], files, name)
+    ], files, downUrls.pcDownUrl)
     cli.resolve(res => {
         return res
     })
