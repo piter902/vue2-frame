@@ -1,0 +1,33 @@
+{
+  "name": "@piter/config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./index.js",
+  "scripts": {
+    "release": "release-it"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "src",
+    "index.js"
+  ],
+  "keywords": [
+    "vueConfig",
+    "config",
+    "piter"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
+    "vue-auto-routing": "^1.0.1",
+    "vue-template-compiler": "^2.7.14",
+    "webpack-bundle-analyzer": "^4.9.1"
+  },
+  "devDependencies": {
+    "release-it": "^16.2.1"
+  }
+}

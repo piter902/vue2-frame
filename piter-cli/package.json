@@ -1,0 +1,39 @@
+{
+  "name": "@piter/cli",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "piter": "index.js"
+  },
+  "scripts": {
+    "release": "release-it"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "cli",
+    "piter"
+  ],
+  "files": [
+    "lib",
+    "action.js",
+    "config.js",
+    "index.js",
+    "projectType.js",
+    "test"
+  ],
+  "author": "piter",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.20.0",
+    "copy-dir": "^1.3.0",
+    "handlebars": "^4.7.8",
+    "inquirer": "^6.0.0",
+    "ora": "^5.4.0"
+  },
+  "devDependencies": {
+    "release-it": "^16.2.1"
+  }
+}

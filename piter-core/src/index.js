@@ -1,0 +1,7 @@
+export { default } from 'vue'
+export { default as VueRouter } from 'vue-router'
+export { default as axios } from 'axios'
+export { default as dayjs } from 'dayjs'
+export { default as ElementUI } from 'element-ui'
+export { default as _ } from 'lodash'
+export { install } from './install'

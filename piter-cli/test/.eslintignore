@@ -1,0 +1,6 @@
+/public
+/node_modules
+/.husky
+/dist
+/src/**/.json
+/.route.js
