@@ -1,5 +1,5 @@
 {
-  "name": "@piter/config",
+  "name": "@piter.fe/config",
   "version": "1.0.0",
   "description": "",
   "main": "./index.js",
