@@ -1,5 +1,5 @@
 import { ElementUI, VueRouter } from "./index";
-import NetWork from "@piter/network";
+import NetWork from "@piter.fe/network";
 import App from "./components/entry.vue";
 import { generateApis } from "./generate";
 
@@ -36,14 +36,18 @@ export const install = (Vue, options) => {
 
   Vue.use(ElementUI);
   Vue.use(VueRouter);
-
+  
+  // 网络库创建
   const http = new NetWork(netWork);
   Vue.prototype.$http = http;
+  
+  // api函数注册
   const apis = generateApis(http);
   Object.keys(apis).forEach((api) => {
     Vue.prototype[api] = apis[api];
   });
-
+  
+  // 路由注册
   const router = new VueRouter({
     mode,
     routes,
@@ -59,8 +63,8 @@ export const install = (Vue, options) => {
       beforeResolve(...rest, http);
     });
   }
-
-  let app = new Vue({
+  // Vue注册
+  new Vue({
     router,
     ...osPlugin,
     render: (h) => h(App),
