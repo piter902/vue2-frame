@@ -17,7 +17,7 @@ import { generateApis } from "./generate";
  * @param {*Function} [options.netWork.responseCallBack] - 响应拦截自定义处理同步函数
  * @param {*Function} [options.netWork.requestCallBack] - 请求拦截自定义处理同步函数
  * @param {*Function} [options.netWork.dataFormatCallback] - 请求结果格式化同步纯函数
- * @param {*string} [options.netWork.prefix] - 接口路劲公共前缀
+ * @param {*string} [options.netWork.baseURL] - 接口全局domain
  * @param {*Number} [options.netWork.timeout] - 接口超时时间 默认10s
  * @param {*Object} [options.netWork.headers] - 公共请求头
  */
