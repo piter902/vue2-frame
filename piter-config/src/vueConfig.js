@@ -2,7 +2,7 @@ const VueAutoRoutingPlugin = require('vue-auto-routing/lib/webpack-plugin');
 const { getCdn } = require('./cdn')
 const path = require('path')
 module.exports = {
-    setPlugin(env, configs) {
+    setPlugin(env, configs, proxy) {
         const root = process.cwd()
         configs.plugin('html').tap((args) => {
             args[0].cdn = getCdn(env);
@@ -31,6 +31,6 @@ module.exports = {
         headers: {
             'Access-Control-Allow-Origin': '*',
         },
-        proxy:{}
+        proxy
     }
 }
