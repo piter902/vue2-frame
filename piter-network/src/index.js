@@ -7,10 +7,8 @@ import {
 } from './utils'
 const _apiList = Symbol('_apiList')
 const _interceptors = Symbol('_interceptors')
-const _prefix = Symbol('commonPrefix')
 
 class NetWork {
-    [_prefix] = ''; // 接口路径公共前缀
     [_apiList] = []; // 还在执行中的api请求容器
     responseCallBack = null;
     _headers = null;
@@ -35,7 +33,6 @@ class NetWork {
         } = options || {}
 
         this.env = process.env.NODE_ENV;
-        this[_prefix] = prefix;
         this.timeout = timeout;
         this._headers = headers;
         this.baseURL = baseURL;
@@ -128,6 +125,7 @@ class NetWork {
                 dataFormatCallback = null,
                 timeout = this.timeout
             } = options
+
             this.verifyFn('callback',callback)
             this.verifyFn('dataFormatCallback', dataFormatCallback)
             
