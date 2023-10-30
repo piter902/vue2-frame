@@ -1,5 +1,5 @@
 import { ElementUI, VueRouter } from "./index";
-import NetWork from "@piter/network";
+import NetWork from "@piter.fe/network";
 import App from "./components/entry.vue";
 import { generateApis } from "./generate";
 
@@ -39,6 +39,7 @@ export const install = (Vue, options) => {
 
   const http = new NetWork(netWork);
   Vue.prototype.$http = http;
+  
   const apis = generateApis(http);
   Object.keys(apis).forEach((api) => {
     Vue.prototype[api] = apis[api];
