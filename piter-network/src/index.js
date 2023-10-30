@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { stringify } from 'qs'
-import { _ } from '@piter/core'
+import { _ } from '@piter.fe/core'
 import {
     CONTENT_TYPE_MAP,
     delay
@@ -18,9 +18,10 @@ class NetWork {
      *
      * @param {*Object} options - 实例化参数
      * @param {*Function} [options.responseCallBack] - 响应拦截自定义处理同步函数
-     * @param {*string} [options.prefix] - 接口路劲公共前缀
-     * @param {*Number} [options.timeout] - 接口超时时间 默认10s
+     * @param {*Function} [options.requestCallBack] - 请求拦截自定义处理同步函数
      * @param {*Function} [options.dataFormatCallback] - 请求结果格式化同步纯函数
+     * @param {*string} [options.baseURL] - 接口全局基础domain
+     * @param {*Number} [options.timeout] - 接口超时时间 默认10s
      * @param {*Object} [options.headers] - 公共请求头
      */
     constructor(options){
@@ -29,15 +30,15 @@ class NetWork {
             requestCallBack = null,
             dataFormatCallback = null,
             headers = null,
-            prefix = '',
+            baseURL = '',
             timeout = 10000
         } = options || {}
 
-        this.env = process.env.NODE_ENV
-        this[_prefix] = prefix
-        this.timeout = timeout
-        this._headers = headers
-
+        this.env = process.env.NODE_ENV;
+        this[_prefix] = prefix;
+        this.timeout = timeout;
+        this._headers = headers;
+        this.baseURL = baseURL;
         this.verifyFn('responseCallBack', responseCallBack, () => {
             this.responseCallBack = _.debounce(responseCallBack,500)
         })
@@ -70,12 +71,10 @@ class NetWork {
             if (data instanceof Blob) {
                 return data
             }
-            if (code !== 200) {
-                if (callback) {
-                    return callback(res)
-                } else if (this.responseCallBack) {
-                    return this.responseCallBack(res)
-                }
+            if(callback) {
+                return callback(res)
+            } else if(this.responseCallBack){
+                return this.responseCallBack(res)
             }
             return res
         }, (err) => {
@@ -102,14 +101,15 @@ class NetWork {
      * @param {*Object} options - 请求参数对象
      * @param {*string} options.url - api接口路径
      * @param {*string} options.method - 请求方式，同axios的method
+     * @param {*string} [options.baseURL] - 接口基础domain
      * @param {*Function } [options.callback]  响应拦截自定义处理同步函数,与responseCallBack函数互斥，且优先于responseCallBack
+     * @param {*Function} [options.dataFormatCallback] - 请求结果格式化同步纯函数
      * @param {*boolean} [options.canRepeat] - 同接口同参数是否可以重复请求  默认值false
      * @param {*Number} [options.timeout] - 接口超时时间  默认10s
      * @param {*Object} [options.params] - 请求查询参数
      * @param {*Object} [options.data] - 请求body参数
      * @param {*Object} [options.headers] - 自定义请求头
      * @param {*Object} options.contentType  - contentType类型  json | form 默认值json
-     * @param {*Function} [options.dataFormatCallback] - 请求结果格式化同步纯函数
      * @returns {*Promise}
      */
     request(options){
@@ -124,6 +124,7 @@ class NetWork {
                 canRepeat = false,
                 contentType = 'json',
                 mock = null,
+                baseURL = '',
                 dataFormatCallback = null,
                 timeout = this.timeout
             } = options
@@ -141,15 +142,11 @@ class NetWork {
                 this[_apiList].push(flag)
             }
             
-            let baseURL = '';
-            if (/^[^\/]/.test(url)) {
-                baseURL = base + this[_prefix]
-            }
             this._headers['Content-Type'] = CONTENT_TYPE_MAP[contentType]
             const cloneOptions = {
                 ...options,
                 timeout,
-                baseURL,
+                baseURL:baseURL || this.baseURL || '',
                 headers:{
                     ...this._headers,
                     ...headers
@@ -182,7 +179,7 @@ class NetWork {
      * @returns Promise
      */
     get(options){
-        return this.request({...options,method:'GET'})
+        return this.request({ ...options, method: 'GET'})
     }
 
     /**
@@ -191,7 +188,7 @@ class NetWork {
      * @returns Promise
      */
     post(options){
-        return this.request({...options,method:'POST'})
+        return this.request({ ...options, method: 'POST'})
     }
 }
 export default NetWork;
