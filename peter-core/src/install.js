@@ -1,5 +1,5 @@
 import { ElementUI, VueRouter } from "./index";
-import NetWork from "@piter.fe/network";
+import NetWork from "@peter.fe/network";
 import App from "./components/entry.vue";
 import { generateApis } from "./generate";
 
@@ -20,6 +20,8 @@ import { generateApis } from "./generate";
  * @param {*string} [options.netWork.baseURL] - 接口全局domain
  * @param {*Number} [options.netWork.timeout] - 接口超时时间 默认10s
  * @param {*Object} [options.netWork.headers] - 公共请求头
+ * @param {*Number} [options.successCode] - 接口成功的状态码，默认值是:200
+ * @param {*Array} [options.successCode] - 接口成功的状态码，默认值是:[200]
  */
 export const install = (Vue, options) => {
   Vue.config.productionTip = false;
@@ -41,7 +43,7 @@ export const install = (Vue, options) => {
   const http = new NetWork(netWork);
   Vue.prototype.$http = http;
   
-  // api函数注册
+  // api函数全局注册
   const apis = generateApis(http);
   Object.keys(apis).forEach((api) => {
     Vue.prototype[api] = apis[api];
@@ -63,6 +65,7 @@ export const install = (Vue, options) => {
       beforeResolve(...rest, http);
     });
   }
+
   // Vue注册
   new Vue({
     router,

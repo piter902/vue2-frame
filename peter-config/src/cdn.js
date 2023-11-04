@@ -13,7 +13,7 @@ const defaultCdn = {
 }
 /**
  * 
- * @param {string} env 环境变量：production|pre|sit|development
+ * @param {string} env 环境变量：production|pre|test|development
  * @returns {object}
  */
 exports.getCdn = (env) => {

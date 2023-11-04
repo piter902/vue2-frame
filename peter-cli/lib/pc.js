@@ -5,7 +5,7 @@ module.exports = function (name) {
     const cli = new CliManager([
         {
             type: 'input',
-            message: '系统名称，对应子应用的publicPath',
+            message: '系统名称',
             name: 'name',
             default: name
         },
@@ -13,7 +13,7 @@ module.exports = function (name) {
             type: 'input',
             message: '系统描述',
             name: 'description',
-            default: 'this is piter pc project!'
+            default: name +'is pc project!'
         }
     ], files, downUrls.pcDownUrl)
     cli.resolve(res => {

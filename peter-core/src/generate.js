@@ -14,7 +14,7 @@ export function generateApis(http) {
           const originApiKeys = Object.keys(originApi)
           originApiKeys.forEach((fnName) => {
             global[serviceScope][fnName] = async function (...rest) {
-                const [{delegate=true,...other},...otherParam] = rest
+                const [{delegate = true, ...other}, ...otherParam] = rest
                 if (delegate) {
                   let error = null;
                   const res = await http.request(other).catch(err => {

@@ -1,7 +1,7 @@
 {
-  "name": "@piter.fe/network",
+  "name": "@peter.fe/network",
   "version": "1.0.1",
-  "description": "",
+  "description": "this is peter.fe network",
   "main": "./src/index.js",
   "scripts": {
     "release": "release-it"
@@ -15,7 +15,7 @@
   "keywords": [
     "network",
     "axios",
-    "piter"
+    "peter"
   ],
   "peerDependencies": {
     "element-ui": "^2.15.14",
@@ -26,6 +26,6 @@
   "devDependencies": {
     "release-it": "^16.2.1"
   },
-  "author": "piter",
+  "author": "peter",
   "license": "ISC"
 }

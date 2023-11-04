@@ -4,7 +4,7 @@ const program = require('commander');
 const inquirer = require('inquirer');
 const projectType = require('./projectType')
 /**
- * piter -v | piter --version
+ * peter -v | peter --version
  * 获取cli版本号
 */
 const { version } = require('./package.json');
@@ -13,7 +13,7 @@ program
 
 
 /**
- * piter create <project name>
+ * peter create <project name>
  * 创建项目
  */
 program

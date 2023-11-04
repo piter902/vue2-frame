@@ -1,24 +1,23 @@
 import axios from 'axios';
 import { stringify } from 'qs'
-import { _ } from '@piter.fe/core'
-import {
-    CONTENT_TYPE_MAP,
-    delay
-} from './utils'
+import { _ } from '@peter.fe/core'
+import { delay } from './utils'
 const _apiList = Symbol('_apiList')
 const _interceptors = Symbol('_interceptors')
 
 class NetWork {
     [_apiList] = []; // 还在执行中的api请求容器
     responseCallBack = null;
-    _headers = null;
+    _commonHeaders = null;
     /**
      *
      * @param {*Object} options - 实例化参数
      * @param {*Function} [options.responseCallBack] - 响应拦截自定义处理同步函数
      * @param {*Function} [options.requestCallBack] - 请求拦截自定义处理同步函数
      * @param {*Function} [options.dataFormatCallback] - 请求结果格式化同步纯函数
-     * @param {*string} [options.baseURL] - 接口全局基础domain
+     * @param {*String} [options.baseURL] - 接口全局基础domain
+     * @param {*Number} [options.successCode] - 接口成功的状态码，默认值是:200
+     * @param {*Array} [options.successCode] - 接口成功的状态码，默认值是:[200]
      * @param {*Number} [options.timeout] - 接口超时时间 默认10s
      * @param {*Object} [options.headers] - 公共请求头
      */
@@ -29,24 +28,27 @@ class NetWork {
             dataFormatCallback = null,
             headers = null,
             baseURL = '',
-            timeout = 10000
+            timeout = 10000,
+            successCode = 200
         } = options || {}
-
+        this.codeType = typeof successCode
+        this.successCode = successCode;
         this.env = process.env.NODE_ENV;
         this.timeout = timeout;
-        this._headers = headers;
+        this._commonHeaders = headers;
         this.baseURL = baseURL;
+
         this.verifyFn('responseCallBack', responseCallBack, () => {
-            this.responseCallBack = _.debounce(responseCallBack,500)
-        })
+            this.responseCallBack = _.debounce(responseCallBack, 500)
+        });
 
         this.verifyFn('requestCallBack', requestCallBack, () => {
-            this.requestCallBack = _.debounce(requestCallBack,500)
-        })
+            this.requestCallBack = _.debounce(requestCallBack, 500)
+        });
 
         this.verifyFn('dataFormatCallback', dataFormatCallback, () => {
             this.dataFormatCallback = dataFormatCallback
-        })
+        });
     }
 
     /**
@@ -64,16 +66,17 @@ class NetWork {
             return Promise.reject(err)
         })
         instance.interceptors.response.use((res) => {
-            let { code, data } = res || {};
+            let { data, code } = res || {};
             if (data instanceof Blob) {
                 return data
             }
-            if(callback) {
-                return callback(res)
-            } else if(this.responseCallBack){
-                return this.responseCallBack(res)
+            if ((this.codeType === 'string' && this.successCode === code) || this.successCode.includes(code)) {
+                return res
+            } else {
+                if (callback) callback(res);
+                else if (this.responseCallBack) this.responseCallBack(res)
+                return res
             }
-            return res
         }, (err) => {
             return Promise.reject(err)
         })
@@ -106,7 +109,6 @@ class NetWork {
      * @param {*Object} [options.params] - 请求查询参数
      * @param {*Object} [options.data] - 请求body参数
      * @param {*Object} [options.headers] - 自定义请求头
-     * @param {*Object} options.contentType  - contentType类型  json | form 默认值json
      * @returns {*Promise}
      */
     request(options){
@@ -119,54 +121,52 @@ class NetWork {
                 headers = null,
                 callback = null,
                 canRepeat = false,
-                contentType = 'json',
                 mock = null,
                 baseURL = '',
                 dataFormatCallback = null,
                 timeout = this.timeout
             } = options
 
-            this.verifyFn('callback',callback)
-            this.verifyFn('dataFormatCallback', dataFormatCallback)
+            this.verifyFn('callback', callback);
+            this.verifyFn('dataFormatCallback', dataFormatCallback);
             
             let flag = ''
             if (!canRepeat) {
-                flag = method + url + (data ? stringify(data) : '') + (params ? stringify(params) : '')
-                const index = this[_apiList].findIndex(ele=> ele === flag)
+                flag = method + url + (data ? stringify(data) : '') + (params ? stringify(params) : '');
+                const index = this[_apiList].findIndex(ele => ele === flag);
                 if (index > -1) {
-                    console.error(`请不要频繁请求${method} ${url}接口`)
-                    return false
+                    console.error(`请不要频繁请求${method} ${url}接口`);
+                    return false;
                 }
-                this[_apiList].push(flag)
+                this[_apiList].push(flag);
             }
             
-            this._headers['Content-Type'] = CONTENT_TYPE_MAP[contentType]
             const cloneOptions = {
                 ...options,
                 timeout,
-                baseURL:baseURL || this.baseURL || '',
-                headers:{
-                    ...this._headers,
+                baseURL: baseURL || this.baseURL || '',
+                headers: {
+                    ...this._commonHeaders,
                     ...headers
                 }
             }
 
             try {
                 if ( mock && this.env === 'development' ) {
-                    await delay(500)
-                    return resolve(mock)
+                    await delay(500);
+                    return resolve(mock);
                 }
-                const instance = axios.create()
-                this[_interceptors](instance, callback)
-                const res = await instance(cloneOptions)
-                const lastRes = dataFormatCallback ? dataFormatCallback(res) : (this.dataFormatCallback ? this.dataFormatCallback(res): res)
-                resolve(lastRes)
+                const instance = axios.create();
+                this[_interceptors](instance, callback);
+                const res = await instance(cloneOptions);
+                const lastRes = dataFormatCallback ? dataFormatCallback(res) : (this.dataFormatCallback ? this.dataFormatCallback(res) : res);
+                resolve(lastRes);
             }catch(err){
-                reject(err)
+                reject(err);
             } finally {
                 if (flag) {
-                    const index = this[_apiList].findIndex(ele => ele === flag)
-                    index > -1 && this[_apiList].splice(index, 1)
+                    const index = this[_apiList].findIndex(ele => ele === flag);
+                    index > -1 && this[_apiList].splice(index, 1);
                 }
             }
         })
@@ -177,7 +177,7 @@ class NetWork {
      * @returns Promise
      */
     get(options){
-        return this.request({ ...options, method: 'GET'})
+        return this.request({ ...options, method: 'GET' });
     }
 
     /**
@@ -186,7 +186,7 @@ class NetWork {
      * @returns Promise
      */
     post(options){
-        return this.request({ ...options, method: 'POST'})
+        return this.request({ ...options, method: 'POST' });
     }
 }
 export default NetWork;

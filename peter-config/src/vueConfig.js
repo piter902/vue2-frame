@@ -8,6 +8,8 @@ module.exports = {
             args[0].cdn = getCdn(env);
             return args;
         });
+        
+        // 根据目录生成路由
         configs.plugin('vue-auto-routing').use(
             new VueAutoRoutingPlugin({
                 pages:path.join(root, 'src/views') ,

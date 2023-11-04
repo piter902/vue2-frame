@@ -6,8 +6,6 @@ const ora = require('ora');
 const fs = require("fs");
 const handlebars = require("handlebars");
 const downloadUrl = require("download");
-// const copyDir = require('copy-dir');
-// const path = require('path')
 module.exports = class CliManager {
 
     constructor(options, files, downUrl) {

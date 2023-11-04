@@ -1,7 +1,7 @@
 {
-  "name": "@piter.fe/config",
+  "name": "@peter.fe/config",
   "version": "1.0.0",
-  "description": "",
+  "description": "this is peter.fe config info",
   "main": "./index.js",
   "scripts": {
     "release": "release-it"
@@ -15,10 +15,13 @@
   ],
   "keywords": [
     "vueConfig",
+    "eslint",
+    "prettierrc",
+    "tailwindcssconfig",
     "config",
-    "piter"
+    "peter"
   ],
-  "author": "",
+  "author": "peter",
   "license": "ISC",
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",

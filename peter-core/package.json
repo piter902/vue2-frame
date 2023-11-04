@@ -1,7 +1,7 @@
 {
-  "name": "@piter.fe/core",
+  "name": "@peter.fe/core",
   "version": "1.0.0",
-  "description": "",
+  "description": "this is peter.fe core",
   "main": "./src/index.js",
   "scripts": {
     "release": "release-it"
@@ -15,16 +15,16 @@
   "keywords": [
     "plugin",
     "core",
-    "piter"
+    "peter"
   ],
-  "author": "piter",
+  "author": "peter",
   "license": "ISC",
   "peerDependencies": {
     "element-ui": "^2.15.14",
     "lodash": "^4.17.21",
     "dayjs": "^1.11.9",
     "axios": "^1.5.0",
-    "@piter.fe/network": "^1.0.0"
+    "@peter.fe/network": "^1.0.0"
   },
   "devDependencies": {
     "release-it": "^16.2.1"
