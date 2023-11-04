@@ -13,7 +13,7 @@ module.exports = function (name) {
             type: 'input',
             message: '系统描述',
             name: 'description',
-            default: name +'is pc project!'
+            default: name +' is pc project!'
         }
     ], files, downUrls.pcDownUrl)
     cli.resolve(res => {
