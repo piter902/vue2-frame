@@ -1,6 +1,6 @@
 {
   "name": "@peter.fe/core",
-  "version": "1.0.0",
+  "version": "1.0.1-beta",
   "description": "this is peter.fe core",
   "main": "./src/index.js",
   "scripts": {
