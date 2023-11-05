@@ -29,7 +29,6 @@ import Vue, {
 import Vue, { install } from "@peter.fe/core";
 Vue.use(install, {
   netWork: {
-    // 网络库，参照@peter.fe/network参数说明
     responseCallBack: (res) => {
       console.log(res);
     },
@@ -61,11 +60,11 @@ Vue.use(install, {
 
 ### install options 参数说明
 
-| 参数     | 说明                                     | 类型   | 可选值 | 默认值 | 是否必传 |
-| -------- | ---------------------------------------- | ------ | ------ | ------ | -------- |
-| osPlugin | 自定义插件                               | Object | -      | -      | false    |
-| Router   | 路由相关参数，见下表                     | Object | -      | -      | false    |
-| netWork  | 见@peter.fe/network 包说明文档的构造参数 | Object | -      | -      | false    |
+| 参数     | 说明                                                                                                                   | 类型   | 可选值 | 默认值 | 是否必传 |
+| -------- | ---------------------------------------------------------------------------------------------------------------------- | ------ | ------ | ------ | -------- |
+| osPlugin | 自定义插件                                                                                                             | Object | -      | -      | false    |
+| Router   | 路由相关参数，见下表                                                                                                   | Object | -      | -      | false    |
+| netWork  | [见@peter.fe/network 包说明文档的构造参数](https://github.com/piter902/vue2-frame/blob/master/peter-network/README.md) | Object | -      | -      | false    |
 
 ### Router 参数说明
 
