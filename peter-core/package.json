@@ -9,6 +9,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "bugs": {
+    "url": "https://github.com/piter902/vue2-frame/issues"
+  },
+  "homepage": "https://github.com/piter902/vue2-frame/blob/master/peter-network/README.md",
   "files": [
     "src"
   ],
