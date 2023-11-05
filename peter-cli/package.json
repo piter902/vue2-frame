@@ -1,6 +1,6 @@
 {
   "name": "@peter.fe/cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "this is peter.fe cli",
   "bin": {
     "peter": "index.js"
@@ -11,6 +11,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "bugs": {
+    "url": "https://github.com/piter902/vue2-frame/issues"
+  },
+  "homepage": "https://github.com/piter902/vue2-frame/blob/master/peter-cli/README.md",
   "keywords": [
     "cli",
     "peter"
@@ -20,7 +24,8 @@
     "action.js",
     "config.js",
     "index.js",
-    "projectType.js"
+    "projectType.js",
+    "README.md"
   ],
   "author": "peter",
   "license": "ISC",

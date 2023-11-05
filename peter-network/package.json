@@ -1,6 +1,6 @@
 {
   "name": "@peter.fe/network",
-  "version": "1.0.1",
+  "version": "1.0.1-beta",
   "description": "this is peter.fe network",
   "main": "./src/index.js",
   "scripts": {
@@ -9,6 +9,10 @@
   "files": [
     "src"
   ],
+  "bugs": {
+    "url": "https://github.com/piter902/vue2-frame/issues"
+  },
+  "homepage": "https://github.com/piter902/vue2-frame/blob/master/peter-network/README.md",
   "publishConfig": {
     "access": "public"
   },
