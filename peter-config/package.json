@@ -1,6 +1,6 @@
 {
   "name": "@peter.fe/config",
-  "version": "1.0.0",
+  "version": "1.0.1-beta",
   "description": "this is peter.fe config info",
   "main": "./index.js",
   "scripts": {
